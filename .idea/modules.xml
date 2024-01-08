@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/kiva-phnx.iml" filepath="$PROJECT_DIR$/.idea/kiva-phnx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/kevy-phnx.iml" filepath="$PROJECT_DIR$/.idea/kevy-phnx.iml" />
     </modules>
   </component>
 </project>
