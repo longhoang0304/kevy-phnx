@@ -69,12 +69,17 @@ impl From<i128> for CommandResult {
     }
 }
 
+impl From<bool> for CommandResult {
+    fn from(value: bool) -> Self {
+        CommandResult::Bool(value)
+    }
+}
+
 impl From<&str> for CommandResult {
     fn from(value: &str) -> Self {
         CommandResult::String(String::from(value))
     }
 }
-
 
 
 impl CommandResult {}

@@ -15,7 +15,7 @@ impl CommandParser for GetEx {
 
         let mut token_iter = tokens.iter();
         let key = token_iter.next().unwrap().clone();
-        let mut parameters = VecDeque::from([CommandParameter::String(key)]);
+        let mut parameters = VecDeque::from([CommandParameter::from(key)]);
 
         let time_unit = token_iter.next().map(|e| e.to_uppercase());
         if time_unit.is_none() {
@@ -35,7 +35,7 @@ impl CommandParser for GetEx {
         }
 
         if tk_len == 2 {
-            parameters.push_back(CommandParameter::String(time_unit));
+            parameters.push_back(CommandParameter::from(time_unit));
             return Ok(Command::new(
                 GetEx::name(),
                 Some(parameters),
@@ -67,7 +67,7 @@ impl CommandParser for GetEx {
 
         let time_value = Box::new(CommandParameter::Number(time_value.unwrap()));
 
-        parameters.push_back(CommandParameter::Pair(CommandParameterPair(time_unit, time_value)));
+        parameters.push_back(CommandParameter::from(CommandParameterPair(time_unit, time_value)));
 
         // ========
 

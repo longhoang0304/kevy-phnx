@@ -13,7 +13,9 @@ impl CommandParser for Get {
         }
 
         let key = tokens[0].clone();
-        let parameters = VecDeque::from([CommandParameter::String(key)]);
+        let parameters = VecDeque::from([
+            CommandParameter::from(key)],
+        );
 
         Ok(Command::new(
             Get::name(),

@@ -62,6 +62,12 @@ impl From<String> for CommandParameter {
     }
 }
 
+impl From<&String> for CommandParameter {
+    fn from(value: &String) -> Self {
+        CommandParameter::String(value.clone())
+    }
+}
+
 impl From<i128> for CommandParameter {
     fn from(value: i128) -> Self {
         CommandParameter::Number(value)
@@ -77,5 +83,16 @@ impl From<f64> for CommandParameter {
 impl From<CommandParameterPair> for CommandParameter {
     fn from(value: CommandParameterPair) -> Self {
         CommandParameter::Pair(value)
+    }
+}
+
+impl From<Box<CommandParameter>> for CommandParameter {
+    fn from(value: Box<CommandParameter>) -> Self {
+        match *value {
+            CommandParameter::Number(v) => CommandParameter::Number(v),
+            CommandParameter::String(v) => CommandParameter::String(v),
+            CommandParameter::Decimal(v) => CommandParameter::Decimal(v),
+            CommandParameter::Pair(v) => CommandParameter::Pair(v),
+        }
     }
 }

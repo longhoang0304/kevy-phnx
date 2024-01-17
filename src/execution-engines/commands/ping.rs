@@ -7,6 +7,6 @@ pub struct Ping;
 
 impl CommandExecutor for Ping {
     fn execute(_: &mut Box<dyn Storage>, _: &Command) -> Result<CommandResult, Box<dyn Error>> {
-        Ok(CommandResult::String(String::from("Pong")))
+        Ok(CommandResult::from(String::from("Pong")))
     }
 }
