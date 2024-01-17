@@ -24,7 +24,7 @@ impl CommandParserFactory<String> for StringToCommandParserFactory {
             _ => Unknown::parse,
         };
 
-        parse(tokens)
+        Ok(parse(tokens)?)
     }
 }
 

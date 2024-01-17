@@ -1,16 +1,15 @@
 use std::collections::VecDeque;
-use std::error::Error;
 
-use crate::command_processors::parsers::cores::{CommandParseError, CommandParser};
+use crate::command_processors::parsers::cores::{CommandParser, CommandParserError};
 use crate::exe_engine::cores::{Command, CommandParameter, CommandParameterPair};
 
 pub struct GetEx;
 
 impl CommandParser for GetEx {
-    fn parse(tokens: VecDeque<String>) -> Result<Command, Box<dyn Error>> {
+    fn parse(tokens: VecDeque<String>) -> Result<Command, Box<CommandParserError>> {
         let tk_len = tokens.len() as u16;
         if tokens.is_empty() {
-            let err = Box::new(CommandParseError::WrongNumberOfArguments(1, 0));
+            let err = Box::new(CommandParserError::WrongNumberOfArguments(1, 0));
             return Err(err);
         }
 
@@ -31,7 +30,7 @@ impl CommandParser for GetEx {
         let time_unit = time_unit.unwrap().clone();
 
         if tk_len == 2 && time_unit.as_str() != "PERSIST" {
-            let err = Box::new(CommandParseError::WrongNumberOfArguments(2, tk_len));
+            let err = Box::new(CommandParserError::WrongNumberOfArguments(2, tk_len));
             return Err(err);
         }
 
@@ -46,7 +45,7 @@ impl CommandParser for GetEx {
         // ========
 
         if tk_len > 3 {
-            let err = Box::new(CommandParseError::WrongNumberOfArguments(3, tk_len));
+            let err = Box::new(CommandParserError::WrongNumberOfArguments(3, tk_len));
             return Err(err);
         }
 
@@ -56,13 +55,13 @@ impl CommandParser for GetEx {
         };
 
         if !valid_unit {
-            let err = Box::new(CommandParseError::InvalidArgument(time_unit));
+            let err = Box::new(CommandParserError::InvalidArgument(time_unit));
             return Err(err);
         }
 
         let time_value = token_iter.next().map(|e| e.parse::<i128>()).unwrap();
         if let Err(_) = time_value {
-            let err = Box::new(CommandParseError::InvalidArgumentValue(time_unit));
+            let err = Box::new(CommandParserError::InvalidArgumentValue(time_unit));
             return Err(err);
         }
 

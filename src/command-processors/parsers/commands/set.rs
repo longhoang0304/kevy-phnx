@@ -1,16 +1,15 @@
 use std::collections::VecDeque;
-use std::error::Error;
 
-use crate::command_processors::parsers::cores::{CommandParseError, CommandParser};
+use crate::command_processors::parsers::cores::{CommandParser, CommandParserError};
 use crate::exe_engine::cores::{Command, CommandParameter};
 
 pub struct Set;
 
 impl CommandParser for Set {
-    fn parse(tokens: VecDeque<String>) -> Result<Command, Box<dyn Error>> {
+    fn parse(tokens: VecDeque<String>) -> Result<Command, Box<CommandParserError>> {
         let tk_len = tokens.len() as u16;
         if tk_len != 2 {
-            let err = Box::new(CommandParseError::WrongNumberOfArguments(2, tk_len));
+            let err = Box::new(CommandParserError::WrongNumberOfArguments(2, tk_len));
             return Err(err);
         }
 

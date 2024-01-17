@@ -1,10 +1,10 @@
 use std::collections::VecDeque;
-use std::error::Error;
 
 use crate::exe_engine::cores::Command;
+use super::{CommandParserError};
 
 pub trait CommandParser {
-    fn parse(tokens: VecDeque<String>) -> Result<Command, Box<dyn Error>>;
+    fn parse(tokens: VecDeque<String>) -> Result<Command, Box<CommandParserError>>;
 
     fn name() -> &'static str;
 }
