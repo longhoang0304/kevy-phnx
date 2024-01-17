@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use crate::exe_engine::cores::{Command, CommandError, CommandExecutor, CommandParameter, CommandResult};
+use crate::exe_engine::cores::{Command, CommandExecutorError, CommandExecutor, CommandParameter, CommandResult};
 use crate::storage::cores::{Storage, StorageData, StorageEntry, StorageValue};
 
 pub struct Set;
@@ -19,7 +19,7 @@ impl CommandExecutor for Set {
                 value = v.clone();
             }
             _ => {
-                let err = Box::new(CommandError::InvalidKey);
+                let err = Box::new(CommandExecutorError::InvalidKey);
                 return Err(err);
             }
         };

@@ -1,4 +1,4 @@
-use crate::exe_engine::cores::CommandError;
+use crate::exe_engine::cores::CommandExecutorError;
 
 #[derive(Debug, Clone)]
 pub struct CommandParameterPair(pub String, pub Box<CommandParameter>);
@@ -12,45 +12,45 @@ pub enum CommandParameter {
 }
 
 impl TryInto<String> for CommandParameter {
-    type Error = Box<CommandError>;
+    type Error = Box<CommandExecutorError>;
 
     fn try_into(self) -> Result<String, Self::Error> {
         match self {
             CommandParameter::String(v) => Ok(v),
-            _ => Err(Box::new(CommandError::InvalidArgument)),
+            _ => Err(Box::new(CommandExecutorError::InvalidArgument)),
         }
     }
 }
 
 impl TryInto<i128> for CommandParameter {
-    type Error = Box<CommandError>;
+    type Error = Box<CommandExecutorError>;
 
     fn try_into(self) -> Result<i128, Self::Error> {
         match self {
             CommandParameter::Number(v) => Ok(v),
-            _ => Err(Box::new(CommandError::InvalidArgument)),
+            _ => Err(Box::new(CommandExecutorError::InvalidArgument)),
         }
     }
 }
 
 impl TryInto<f64> for CommandParameter {
-    type Error = Box<CommandError>;
+    type Error = Box<CommandExecutorError>;
 
     fn try_into(self) -> Result<f64, Self::Error> {
         match self {
             CommandParameter::Decimal(v) => Ok(v),
-            _ => Err(Box::new(CommandError::InvalidArgument)),
+            _ => Err(Box::new(CommandExecutorError::InvalidArgument)),
         }
     }
 }
 
 impl TryInto<CommandParameterPair> for CommandParameter {
-    type Error = Box<CommandError>;
+    type Error = Box<CommandExecutorError>;
 
     fn try_into(self) -> Result<CommandParameterPair, Self::Error> {
         match self {
             CommandParameter::Pair(v) => Ok(v),
-            _ => Err(Box::new(CommandError::InvalidArgument)),
+            _ => Err(Box::new(CommandExecutorError::InvalidArgument)),
         }
     }
 }

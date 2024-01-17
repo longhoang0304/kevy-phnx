@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use crate::exe_engine::cores::{Command, CommandError, CommandExecutor, CommandResult};
+use crate::exe_engine::cores::{Command, CommandExecutorError, CommandExecutor, CommandResult};
 use crate::storage::cores::Storage;
 
 pub struct GetRange;
@@ -17,7 +17,7 @@ impl CommandExecutor for GetRange {
         let data = entry.get_data();
 
         if !data.is_primitive() {
-            let err = Box::new(CommandError::WrongCommandType);
+            let err = Box::new(CommandExecutorError::WrongCommandType);
             return Err(err);
         }
 
