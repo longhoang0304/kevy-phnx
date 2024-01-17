@@ -4,9 +4,9 @@ use std::error::Error;
 use crate::command_processors::parsers::cores::{CommandParseError, CommandParser};
 use crate::exe_engine::cores::{Command, CommandParameter};
 
-pub struct Set;
+pub struct Append;
 
-impl CommandParser for Set {
+impl CommandParser for Append {
     fn parse(tokens: VecDeque<String>) -> Result<Command, Box<dyn Error>> {
         let tk_len = tokens.len() as u16;
         if tk_len != 2 {
@@ -16,18 +16,15 @@ impl CommandParser for Set {
 
         let key = tokens.front().unwrap().clone();
         let value = tokens.back().unwrap().clone();
-        let parameters = VecDeque::from([
-            CommandParameter::String(key),
-            CommandParameter::String(value),
-        ]);
+        let parameters = VecDeque::from([CommandParameter::String(key), CommandParameter::String(value)]);
 
         Ok(Command::new(
-            Set::name(),
+            Append::name(),
             Some(parameters),
         ))
     }
 
     fn name() -> &'static str {
-        "SET"
+        "APPEND"
     }
 }

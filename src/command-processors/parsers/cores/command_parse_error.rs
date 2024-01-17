@@ -3,17 +3,17 @@ use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
 pub enum CommandParseError {
-    EmptyQuery,
-    MissingParametersForCommand(&'static str),
-    InvalidParametersForCommand(&'static str),
+    WrongNumberOfArguments(u16, u16),
+    InvalidArgument(String),
+    InvalidArgumentValue(String),
 }
 
 impl Display for CommandParseError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let msg = match self {
-            CommandParseError::EmptyQuery => String::from("Empty query"),
-            CommandParseError::MissingParametersForCommand(cmd) => format!("Missing parameters for command: {cmd}"),
-            CommandParseError::InvalidParametersForCommand(cmd) => format!("Invalid parameter for command: {cmd}"),
+            CommandParseError::WrongNumberOfArguments(expected, given) => format!("Wrong number of arguments. Expected: {expected} but {given} was given."),
+            CommandParseError::InvalidArgument(arg_name) => format!("Invalid argument: {arg_name}."),
+            CommandParseError::InvalidArgumentValue(arg_name) => format!("Invalid value for argument: {arg_name}."),
         };
 
         write!(f, "{msg}")

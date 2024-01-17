@@ -1,7 +1,7 @@
 use std::error::Error;
 
 use crate::exe_engine::cores::{Command, CommandError, CommandExecutor, CommandParameter, CommandResult};
-use crate::storage::cores::{Storage, StorageEntry, StorageValue};
+use crate::storage::cores::{Storage, StorageData, StorageEntry, StorageValue};
 
 pub struct Set;
 
@@ -24,12 +24,8 @@ impl CommandExecutor for Set {
             }
         };
 
-        if key.is_empty() {
-            let err = Box::new(CommandError::MissingKey);
-            return Err(err);
-        }
-
-        let entry = StorageEntry::new(key, StorageValue::String(value));
+        let value = StorageValue::new(StorageData::from(value), None);
+        let entry = StorageEntry::new(key, value);
 
         storage.write(entry)?;
         Ok(CommandResult::Bool(true))

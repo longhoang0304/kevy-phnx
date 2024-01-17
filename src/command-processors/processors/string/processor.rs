@@ -1,7 +1,7 @@
 use std::error::Error;
 
 use crate::command_processors::cores::CommandProcessor;
-use crate::command_processors::parsers::cores::{CommandParserFactory};
+use crate::command_processors::parsers::cores::CommandParserFactory;
 use crate::exe_engine::cores::{CommandResult, ExecuteEngine};
 
 pub struct StringCommandProcessor {
@@ -14,6 +14,8 @@ impl CommandProcessor<String> for StringCommandProcessor {
         let trimmed = command.trim();
         let command = self.parser.parse(trimmed.to_string())?;
 
+        println!("Parsed command: {:?}", command);
+
         self.execute_engine.execute(command)
     }
 }
@@ -21,7 +23,7 @@ impl CommandProcessor<String> for StringCommandProcessor {
 impl StringCommandProcessor {
     pub fn new(
         parser: Box<dyn CommandParserFactory<String>>,
-        execute_engine: Box<dyn ExecuteEngine>
+        execute_engine: Box<dyn ExecuteEngine>,
     ) -> StringCommandProcessor {
         StringCommandProcessor {
             parser,
