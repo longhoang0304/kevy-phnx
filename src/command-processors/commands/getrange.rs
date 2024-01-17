@@ -29,8 +29,8 @@ impl CommandParser for GetRange {
             return Err(err);
         }
 
-        parameters.push_back(CommandParameter::Number(start.unwrap()));
-        parameters.push_back(CommandParameter::Number(end.unwrap()));
+        parameters.push_back(CommandParameter::from(start.unwrap()));
+        parameters.push_back(CommandParameter::from(end.unwrap()));
 
         Ok(Command::new(
             GetRange::name(),

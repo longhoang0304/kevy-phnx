@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use crate::command_processors::parsers::commands::*;
+use crate::command_processors::commands::*;
 use crate::command_processors::parsers::cores::{CommandParser, CommandParserFactory, CommandTokenizer};
 use crate::exe_engine::cores::Command;
 

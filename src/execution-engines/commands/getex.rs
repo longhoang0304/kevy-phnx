@@ -1,7 +1,7 @@
 use std::error::Error;
 use std::time::SystemTime;
 
-use crate::exe_engine::cores::{Command, CommandExecutor, CommandResult};
+use crate::exe_engine::cores::{Command, CommandExecutor, CommandParameter, CommandParameterPair, CommandResult};
 use crate::storage::cores::Storage;
 
 pub struct GetEx;
@@ -11,10 +11,12 @@ impl CommandExecutor for GetEx {
         let parameters = cmd.parameters.as_ref().unwrap();
         let mut params_iter = parameters.iter();
         let key: String = params_iter.next().unwrap().clone().try_into()?;
-        let time_unit: String = params_iter.next().unwrap().clone().try_into()?;
-        let time_value: i128 = params_iter.next().unwrap().clone().try_into()?;
-        let now = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH)?.as_millis() as i128;
 
+        let time: CommandParameterPair = params_iter.next().unwrap().clone().try_into()?;
+        let time_unit = time.0;
+        let time_value: i128  = CommandParameter::from(time.1).try_into()?;
+
+        let now = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH)?.as_millis() as i128;
         let ttl = match time_unit.as_str() {
             "EX" => Some(time_value * 1000),
             "PX" => Some(time_value),
@@ -24,7 +26,7 @@ impl CommandExecutor for GetEx {
         };
 
         let mut entry = storage.read(&key)?;
-        let data = entry.value.data.clone();
+        let data = entry.get_data().clone();
 
         entry.set_ttl(ttl);
         storage.write(entry)?;

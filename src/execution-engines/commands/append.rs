@@ -20,6 +20,6 @@ impl CommandExecutor for Append {
         entry.set_data(StorageData::from(new_data));
         storage.write(entry)?;
 
-        Ok(CommandResult::Number(new_len))
+        Ok(CommandResult::from(new_len))
     }
 }
