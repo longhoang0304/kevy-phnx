@@ -3,19 +3,21 @@ use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
 pub enum CommandError {
-    ValueNotFound(String),
     MissingKey,
     InvalidKey,
+    InvalidArgument,
+    WrongCommandType,
     UnknownCommand(String),
 }
 
 impl Display for CommandError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let msg = match self {
-            CommandError::ValueNotFound(key) => format!("Value not found for key: `{key}`"),
-            CommandError::InvalidKey => String::from("Key is not valid"),
-            CommandError::MissingKey => String::from("Key is required"),
-            CommandError::UnknownCommand(cmd) => format!("Unknown command: `{cmd}`"),
+            CommandError::InvalidKey => String::from("InvalidKey"),
+            CommandError::MissingKey => String::from("MissingKey"),
+            CommandError::InvalidArgument => String::from("InvalidArgument"),
+            CommandError::WrongCommandType => String::from("WrongCommandType: The given key doesn't support this command."),
+            CommandError::UnknownCommand(cmd) => format!("UnknownCommand: `{cmd}`"),
         };
 
         write!(f, "{msg}")

@@ -2,7 +2,7 @@ use std::collections::VecDeque;
 use std::error::Error;
 
 use crate::command_processors::parsers::cores::{CommandParseError, CommandParser};
-use crate::exe_engine::cores::{Command, CommandParameter};
+use crate::exe_engine::cores::{Command, CommandParameter, CommandParameterPair};
 
 pub struct GetEx;
 
@@ -60,15 +60,15 @@ impl CommandParser for GetEx {
             return Err(err);
         }
 
-        let time_value = token_iter.next().map(|e| e.parse::<u32>()).unwrap();
+        let time_value = token_iter.next().map(|e| e.parse::<i128>()).unwrap();
         if let Err(_) = time_value {
             let err = Box::new(CommandParseError::InvalidArgumentValue(time_unit));
             return Err(err);
         }
 
-        let time_value = Box::new(CommandParameter::Number(time_value.unwrap() as i64));
+        let time_value = Box::new(CommandParameter::Number(time_value.unwrap()));
 
-        parameters.push_back(CommandParameter::Pair(time_unit, time_value));
+        parameters.push_back(CommandParameter::Pair(CommandParameterPair(time_unit, time_value)));
 
         // ========
 

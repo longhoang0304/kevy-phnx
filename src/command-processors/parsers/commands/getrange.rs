@@ -18,8 +18,8 @@ impl CommandParser for GetRange {
         let key = token_iter.next().unwrap().clone();
         let mut parameters = VecDeque::from([CommandParameter::String(key)]);
 
-        let start = token_iter.next().map(|e| e.parse::<i64>()).unwrap();
-        let end = token_iter.next().map(|e| e.parse::<i64>()).unwrap();
+        let start = token_iter.next().map(|e| e.parse::<i128>()).unwrap();
+        let end = token_iter.next().map(|e| e.parse::<i128>()).unwrap();
 
         if start.is_err() {
             let err = Box::new(CommandParseError::InvalidArgumentValue(String::from("start")));

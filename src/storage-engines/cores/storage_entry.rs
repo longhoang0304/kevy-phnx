@@ -1,14 +1,4 @@
-use std::collections::HashMap;
-
-pub type StorageKey = String;
-
-#[derive(Debug, Clone)]
-pub enum StorageValue {
-    Range(Vec<String>),
-    Number(i64),
-    String(String),
-    Map(HashMap<String, String>),
-}
+use super::{StorageData, StorageKey, StorageValue};
 
 pub struct StorageEntry {
     pub key: StorageKey,
@@ -22,6 +12,36 @@ impl StorageEntry {
             value,
         }
     }
-}
 
-pub type StorageEntries = HashMap<StorageKey, StorageValue>;
+    pub fn get_key(&self) -> &StorageKey {
+        &self.key
+    }
+
+    pub fn get_data(&self) -> &StorageData {
+        &self.value.data
+    }
+
+    pub fn get_data_mut(&mut self) -> &mut StorageData {
+        &mut self.value.data
+    }
+
+    pub fn get_ttl(&mut self) -> &Option<i128> {
+        &self.value.ttl
+    }
+
+    pub fn get_ttl_mut(&mut self) -> &mut Option<i128> {
+        &mut self.value.ttl
+    }
+
+    pub fn set_value(&mut self, value: StorageValue) {
+        self.value = value;
+    }
+
+    pub fn set_data(&mut self, data: StorageData) {
+        self.value.data = data;
+    }
+
+    pub fn set_ttl(&mut self, ttl: Option<i128>) {
+        self.value.ttl = ttl;
+    }
+}

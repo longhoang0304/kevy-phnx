@@ -14,6 +14,10 @@ impl ExecuteEngine for SingleThreadExecuteEngine {
             "PING" => Ping::execute,
             "GET" => Get::execute,
             "SET" => Set::execute,
+            "APPEND" => Append::execute,
+            "GETEX" => GetEx::execute,
+            "GETDEL" => GetDel::execute,
+            "GETRANGE" => GetRange::execute,
             _ => Unknown::execute,
         };
 
