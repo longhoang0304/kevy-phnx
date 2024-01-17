@@ -5,7 +5,7 @@ pub type StorageKey = String;
 #[derive(Debug, Clone)]
 pub enum StorageValue {
     Range(Vec<String>),
-    Number(i128),
+    Number(i64),
     String(String),
     Map(HashMap<String, String>),
 }

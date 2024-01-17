@@ -6,7 +6,7 @@ use crate::storage::cores::StorageValue;
 #[derive(Debug)]
 pub enum CommandResult {
     Range(Vec<String>),
-    Number(i128),
+    Number(i64),
     String(String),
     Map(HashMap<String, String>),
     Bool(bool),
@@ -23,7 +23,7 @@ impl Display for CommandResult {
                 } else {
                     String::from("NOT OK - CHECK ERROR MESSAGE")
                 }
-            },
+            }
             _ => String::from(""),
         };
 

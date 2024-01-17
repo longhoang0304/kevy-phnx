@@ -9,8 +9,12 @@ pub struct Unknown;
 impl CommandParser for Unknown {
     fn parse(_: VecDeque<String>) -> Result<Command, Box<dyn Error>> {
         Ok(Command::new(
-            "UNKNOWN",
+            Unknown::name(),
             None,
         ))
+    }
+
+    fn name() -> &'static str {
+        "UNKNOWN"
     }
 }

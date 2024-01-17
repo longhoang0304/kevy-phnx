@@ -1,7 +1,6 @@
 use std::error::Error;
 
-use crate::command_processors::parsers::commands::{Ping, Set, Unknown};
-use crate::command_processors::parsers::commands::Get;
+use crate::command_processors::parsers::commands::*;
 use crate::command_processors::parsers::cores::{CommandParser, CommandParserFactory, CommandTokenizer};
 use crate::exe_engine::cores::Command;
 
@@ -16,6 +15,10 @@ impl CommandParserFactory<String> for StringToCommandParserFactory {
 
         let parse = match name.as_str() {
             "GET" => Get::parse,
+            "APPEND" => Append::parse,
+            "GETEX" => GetEx::parse,
+            "GETDEL" => GetDel::parse,
+            "GETRANGE" => GetRange::parse,
             "SET" => Set::parse,
             "PING" => Ping::parse,
             _ => Unknown::parse,

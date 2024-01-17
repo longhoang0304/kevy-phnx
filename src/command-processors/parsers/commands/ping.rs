@@ -8,6 +8,10 @@ pub struct Ping;
 
 impl CommandParser for Ping {
     fn parse(_: VecDeque<String>) -> Result<Command, Box<dyn Error>> {
-        Ok(Command::new("PING", None))
+        Ok(Command::new(Ping::name(), None))
+    }
+
+    fn name() -> &'static str {
+        "PING"
     }
 }
