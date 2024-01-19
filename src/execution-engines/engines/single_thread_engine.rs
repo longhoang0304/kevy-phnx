@@ -18,6 +18,7 @@ impl ExecuteEngine for SingleThreadExecuteEngine {
             "GETEX" => GetEx::execute,
             "GETDEL" => GetDel::execute,
             "GETRANGE" => GetRange::execute,
+            "SETRANGE" => SetRange::execute,
             _ => Unknown::execute,
         };
 

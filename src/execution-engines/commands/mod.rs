@@ -3,8 +3,10 @@ pub use get::Get;
 pub use getdel::GetDel;
 pub use getex::GetEx;
 pub use getrange::GetRange;
+pub use setrange::SetRange;
 pub use ping::Ping;
 pub use set::Set;
+pub(self) use setex::SetEx;
 pub use unknown::Unknown;
 
 mod ping;
@@ -15,4 +17,5 @@ mod append;
 mod getdel;
 mod getrange;
 mod getex;
-mod funcs;
+mod setex;
+mod setrange;

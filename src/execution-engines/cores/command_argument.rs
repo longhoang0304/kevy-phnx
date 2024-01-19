@@ -7,6 +7,8 @@ pub enum CommandArgumentValue {
     Decimal(f64),
     Number(i128),
     String(String),
+    Bool(bool),
+    Index(usize),
 }
 
 impl TryInto<String> for CommandArgumentValue {
@@ -42,6 +44,28 @@ impl TryInto<f64> for CommandArgumentValue {
     }
 }
 
+impl TryInto<bool> for CommandArgumentValue {
+    type Error = CommandArgumentValueError;
+
+    fn try_into(self) -> Result<bool, Self::Error> {
+        match self {
+            CommandArgumentValue::Bool(v) => Ok(v),
+            _ => Err(CommandArgumentValueError::TryIntoError),
+        }
+    }
+}
+
+impl TryInto<usize> for CommandArgumentValue {
+    type Error = CommandArgumentValueError;
+
+    fn try_into(self) -> Result<usize, Self::Error> {
+        match self {
+            CommandArgumentValue::Index(v) => Ok(v),
+            _ => Err(CommandArgumentValueError::TryIntoError),
+        }
+    }
+}
+
 // =========
 
 impl From<String> for CommandArgumentValue {
@@ -65,6 +89,18 @@ impl From<i128> for CommandArgumentValue {
 impl From<f64> for CommandArgumentValue {
     fn from(value: f64) -> Self {
         CommandArgumentValue::Decimal(value)
+    }
+}
+
+impl From<bool> for CommandArgumentValue {
+    fn from(value: bool) -> Self {
+        CommandArgumentValue::Bool(value)
+    }
+}
+
+impl From<usize> for CommandArgumentValue {
+    fn from(value: usize) -> Self {
+        CommandArgumentValue::Index(value)
     }
 }
 

@@ -5,7 +5,7 @@ use std::fmt::{Display, Formatter};
 pub enum CommandExecutorError {
     MissingRequiredArgument(String),
     InvalidArgumentValue(String),
-    InvalidArgumentSyntax(String),
+    InvalidCommandSyntax,
     UnknownCommand,
     NotSupportedDataType,
 }
@@ -15,7 +15,7 @@ impl Display for CommandExecutorError {
         let msg = match self {
             CommandExecutorError::MissingRequiredArgument(name) => format!("MissingRequiredArgument: Missing required argument `{name}`."),
             CommandExecutorError::InvalidArgumentValue(name) => format!("InvalidArgumentValue: Value for argument `{name}` is not valid."),
-            CommandExecutorError::InvalidArgumentSyntax(name) => format!("InvalidArgumentSyntax: Invalid syntax for argument `{name}`."),
+            CommandExecutorError::InvalidCommandSyntax => String::from("InvalidCommandSyntax: Invalid syntax."),
             CommandExecutorError::UnknownCommand => String::from("UnknownCommand: Unknown command."),
             CommandExecutorError::NotSupportedDataType => String::from("NotSupportedData: Value's data type is not supported for this command."),
         };

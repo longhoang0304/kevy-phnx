@@ -3,9 +3,9 @@ use std::collections::{HashMap, VecDeque};
 use crate::command_processors::parsers::cores::{CommandParser, CommandParserError};
 use crate::exe_engine::cores::{Command, CommandArgumentValue};
 
-pub struct GetRange;
+pub struct SetRange;
 
-impl CommandParser for GetRange {
+impl CommandParser for SetRange {
     fn parse(tokens: VecDeque<String>) -> Result<Command, Box<CommandParserError>> {
         let tk_len = tokens.len() as u16;
         if tk_len != 3 {
@@ -19,28 +19,24 @@ impl CommandParser for GetRange {
             ("KEY", key),
         ]);
 
-        let start = token_iter.next().map(|e| e.parse::<i128>()).unwrap();
-        let end = token_iter.next().map(|e| e.parse::<i128>()).unwrap();
+        let offset = token_iter.next().map(|e| e.parse::<usize>()).unwrap();
+        let value = token_iter.next().unwrap().clone();
 
-        if start.is_err() {
-            let err = Box::new(CommandParserError::InvalidArgumentValue(String::from("START")));
-            return Err(err);
-        }
-        if end.is_err() {
-            let err = Box::new(CommandParserError::InvalidArgumentValue(String::from("END")));
+        if offset.is_err() {
+            let err = Box::new(CommandParserError::InvalidArgumentValue(String::from("OFFSET")));
             return Err(err);
         }
 
-        arguments.insert("START", CommandArgumentValue::from(start.unwrap()));
-        arguments.insert("END", CommandArgumentValue::from(end.unwrap()));
+        arguments.insert("OFFSET", CommandArgumentValue::from(offset.unwrap()));
+        arguments.insert("VALUE", CommandArgumentValue::from(value));
 
         Ok(Command::new(
-            GetRange::name(),
+            SetRange::name(),
             arguments,
         ))
     }
 
     fn name() -> &'static str {
-        "GETRANGE"
+        "SETRANGE"
     }
 }
