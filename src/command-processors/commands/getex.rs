@@ -1,7 +1,7 @@
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 
 use crate::command_processors::parsers::cores::{CommandParser, CommandParserError};
-use crate::exe_engine::cores::{Command, CommandParameter, CommandParameterPair};
+use crate::exe_engine::cores::{Command, CommandArgumentValue};
 
 pub struct GetEx;
 
@@ -14,14 +14,16 @@ impl CommandParser for GetEx {
         }
 
         let mut token_iter = tokens.iter();
-        let key = token_iter.next().unwrap().clone();
-        let mut parameters = VecDeque::from([CommandParameter::from(key)]);
+        let key = CommandArgumentValue::from(token_iter.next().unwrap().clone());
+        let mut arguments = HashMap::from([
+            ("KEY", key),
+        ]);
 
         let time_unit = token_iter.next().map(|e| e.to_uppercase());
         if time_unit.is_none() {
             return Ok(Command::new(
                 GetEx::name(),
-                Some(parameters),
+                arguments,
             ));
         }
 
@@ -35,10 +37,10 @@ impl CommandParser for GetEx {
         }
 
         if tk_len == 2 {
-            parameters.push_back(CommandParameter::from(time_unit));
+            arguments.insert("TTL_UNIT", CommandArgumentValue::from(time_unit));
             return Ok(Command::new(
                 GetEx::name(),
-                Some(parameters),
+                arguments,
             ));
         }
 
@@ -65,15 +67,16 @@ impl CommandParser for GetEx {
             return Err(err);
         }
 
-        let time_value = Box::new(CommandParameter::Number(time_value.unwrap()));
+        let time_value = time_value.unwrap();
 
-        parameters.push_back(CommandParameter::from(CommandParameterPair(time_unit, time_value)));
+        arguments.insert("TTL_UNIT", CommandArgumentValue::from(time_unit));
+        arguments.insert("TTL_VALUE", CommandArgumentValue::from(time_value));
 
         // ========
 
         Ok(Command::new(
             GetEx::name(),
-            Some(parameters),
+            arguments,
         ))
     }
 

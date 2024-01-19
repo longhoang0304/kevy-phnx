@@ -1,7 +1,7 @@
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 
 use crate::command_processors::parsers::cores::{CommandParser, CommandParserError};
-use crate::exe_engine::cores::{Command, CommandParameter};
+use crate::exe_engine::cores::{Command, CommandArgumentValue};
 
 pub struct GetRange;
 
@@ -14,8 +14,10 @@ impl CommandParser for GetRange {
         }
 
         let mut token_iter = tokens.iter();
-        let key = token_iter.next().unwrap().clone();
-        let mut parameters = VecDeque::from([CommandParameter::String(key)]);
+        let key = CommandArgumentValue::from(token_iter.next().unwrap().clone());
+        let mut arguments = HashMap::from([
+            ("KEY", key),
+        ]);
 
         let start = token_iter.next().map(|e| e.parse::<i128>()).unwrap();
         let end = token_iter.next().map(|e| e.parse::<i128>()).unwrap();
@@ -29,12 +31,12 @@ impl CommandParser for GetRange {
             return Err(err);
         }
 
-        parameters.push_back(CommandParameter::from(start.unwrap()));
-        parameters.push_back(CommandParameter::from(end.unwrap()));
+        arguments.insert("START", CommandArgumentValue::from(start.unwrap()));
+        arguments.insert("END", CommandArgumentValue::from(end.unwrap()));
 
         Ok(Command::new(
             GetRange::name(),
-            Some(parameters),
+            arguments,
         ))
     }
 

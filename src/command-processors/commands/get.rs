@@ -1,7 +1,7 @@
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 
 use crate::command_processors::parsers::cores::{CommandParser, CommandParserError};
-use crate::exe_engine::cores::{Command, CommandParameter};
+use crate::exe_engine::cores::{Command, CommandArgumentValue};
 
 pub struct Get;
 
@@ -12,14 +12,14 @@ impl CommandParser for Get {
             return Err(err);
         }
 
-        let key = tokens[0].clone();
-        let parameters = VecDeque::from([
-            CommandParameter::from(key)],
-        );
+        let key = CommandArgumentValue::from(tokens[0].clone());
+        let arguments = HashMap::from([
+            ("KEY", key),
+        ]);
 
         Ok(Command::new(
             Get::name(),
-            Some(parameters),
+            arguments,
         ))
     }
 
