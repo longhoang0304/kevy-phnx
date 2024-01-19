@@ -12,13 +12,13 @@ impl CommandExecutor for GetRange {
         let mut end: i128 = cmd.get_required("END")?;
 
         let entry = storage.read(&key)?;
-        let data = entry.get_data();
 
-        if !data.is_primitive() {
+        if !entry.is_primitive() {
             let err = Box::new(CommandExecutorError::NotSupportedDataType);
             return Err(err);
         }
 
+        let data = entry.get_data();
         let data = data.to_string();
         let data_len = data.len() as i128;
 

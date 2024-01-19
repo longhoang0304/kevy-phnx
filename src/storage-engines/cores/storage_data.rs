@@ -40,7 +40,7 @@ impl StorageData {
     pub fn is_primitive(&self) -> bool {
         match self {
             StorageData::Number(_) | StorageData::String(_) | StorageData::Nil => true,
-            StorageData::Range(_) | StorageData::Map(_) => false,
+            _ => false,
         }
     }
 }

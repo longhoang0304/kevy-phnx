@@ -20,6 +20,7 @@ impl CommandParserFactory<String> for StringToCommandParserFactory {
             "GETDEL" => GetDel::parse,
             "GETRANGE" => GetRange::parse,
             "SET" => Set::parse,
+            "SETRANGE" => SetRange::parse,
             "PING" => Ping::parse,
             _ => Unknown::parse,
         };

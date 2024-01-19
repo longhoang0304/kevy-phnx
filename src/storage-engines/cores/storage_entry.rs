@@ -43,4 +43,8 @@ impl StorageEntry {
             _ => false,
         }
     }
+
+    pub fn is_primitive(&self) -> bool {
+        self.value.data.is_primitive()
+    }
 }
