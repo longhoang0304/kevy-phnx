@@ -1,7 +1,7 @@
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 
 use crate::command_processors::parsers::cores::{CommandParser, CommandParserError};
-use crate::exe_engine::cores::{Command, CommandParameter};
+use crate::exe_engine::cores::{Command, CommandArgumentValue};
 
 pub struct Set;
 
@@ -13,16 +13,16 @@ impl CommandParser for Set {
             return Err(err);
         }
 
-        let key = tokens.front().unwrap();
-        let value = tokens.back().unwrap();
-        let parameters = VecDeque::from([
-            CommandParameter::from(key),
-            CommandParameter::from(value),
+        let key = CommandArgumentValue::from(tokens.front().unwrap());
+        let value = CommandArgumentValue::from(tokens.back().unwrap());
+        let arguments = HashMap::from([
+            ("KEY", key),
+            ("VALUE", value),
         ]);
 
         Ok(Command::new(
             Set::name(),
-            Some(parameters),
+            arguments,
         ))
     }
 

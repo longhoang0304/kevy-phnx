@@ -1,23 +1,22 @@
 use std::error::Error;
 
-use crate::exe_engine::cores::{Command, CommandExecutorError, CommandExecutor, CommandResult};
+use crate::exe_engine::commands::funcs::get_required;
+use crate::exe_engine::cores::{Command, CommandExecutor, CommandExecutorError, CommandResult};
 use crate::storage::cores::Storage;
 
 pub struct GetRange;
 
 impl CommandExecutor for GetRange {
     fn execute(storage: &mut Box<dyn Storage>, cmd: &Command) -> Result<CommandResult, Box<dyn Error>> {
-        let parameters = cmd.parameters.as_ref().unwrap();
-        let mut params_iter = parameters.iter();
-        let key: String = params_iter.next().unwrap().clone().try_into()?;
-        let mut start: i128 = params_iter.next().unwrap().clone().try_into()?;
-        let mut end: i128 = params_iter.next().unwrap().clone().try_into()?;
+        let key: String = get_required("KEY", cmd)?;
+        let mut start: i128 = get_required("START", cmd)?;
+        let mut end: i128 = get_required("END", cmd)?;
 
         let entry = storage.read(&key)?;
         let data = entry.get_data();
 
         if !data.is_primitive() {
-            let err = Box::new(CommandExecutorError::WrongCommandType);
+            let err = Box::new(CommandExecutorError::NotSupportedDataType);
             return Err(err);
         }
 
