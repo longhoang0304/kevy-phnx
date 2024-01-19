@@ -23,6 +23,7 @@ impl ExecuteEngine for SingleThreadExecuteEngine {
             "INCRBYFLOAT" => IncrByFloat::execute,
             "DECRBY" => DecrBy::execute,
             "DECRBYFLOAT" => DecrByFloat::execute,
+            "STRLEN" => Strlen::execute,
             _ => Unknown::execute,
         };
 
