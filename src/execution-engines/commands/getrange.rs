@@ -1,6 +1,5 @@
 use std::error::Error;
 
-use crate::exe_engine::commands::funcs::get_required;
 use crate::exe_engine::cores::{Command, CommandExecutor, CommandExecutorError, CommandResult};
 use crate::storage::cores::Storage;
 
@@ -8,9 +7,9 @@ pub struct GetRange;
 
 impl CommandExecutor for GetRange {
     fn execute(storage: &mut Box<dyn Storage>, cmd: &Command) -> Result<CommandResult, Box<dyn Error>> {
-        let key: String = get_required("KEY", cmd)?;
-        let mut start: i128 = get_required("START", cmd)?;
-        let mut end: i128 = get_required("END", cmd)?;
+        let key: String = cmd.get_required("KEY")?;
+        let mut start: i128 = cmd.get_required("START")?;
+        let mut end: i128 = cmd.get_required("END")?;
 
         let entry = storage.read(&key)?;
         let data = entry.get_data();

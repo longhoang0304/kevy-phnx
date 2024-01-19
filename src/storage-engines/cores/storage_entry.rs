@@ -21,16 +21,8 @@ impl StorageEntry {
         &self.value.data
     }
 
-    pub fn get_data_mut(&mut self) -> &mut StorageData {
-        &mut self.value.data
-    }
-
     pub fn get_ttl(&mut self) -> &Option<i128> {
         &self.value.ttl
-    }
-
-    pub fn get_ttl_mut(&mut self) -> &mut Option<i128> {
-        &mut self.value.ttl
     }
 
     pub fn set_value(&mut self, value: StorageValue) {
@@ -43,5 +35,12 @@ impl StorageEntry {
 
     pub fn set_ttl(&mut self, ttl: Option<i128>) {
         self.value.ttl = ttl;
+    }
+
+    pub fn is_nil(&self) -> bool {
+        match self.value.data {
+            StorageData::Nil => true,
+            _ => false,
+        }
     }
 }
