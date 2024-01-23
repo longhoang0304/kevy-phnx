@@ -29,6 +29,7 @@ impl CommandParserFactory<String> for StringToCommandParserFactory {
             "DECRBY" => DecrBy::parse,
             "DECRBYFLOAT" => DecrByFloat::parse,
             "STRLEN" => Strlen::parse,
+            "LCS" => Lcs::parse,
             _ => Unknown::parse,
         };
 
