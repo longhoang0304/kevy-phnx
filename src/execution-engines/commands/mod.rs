@@ -12,6 +12,9 @@ pub use incrby::IncrBy;
 pub use incrbyfloat::IncrByFloat;
 pub use decrby::DecrBy;
 pub use decrbyfloat::DecrByFloat;
+pub use strlen::Strlen;
+pub use lcs::Lcs;
+
 
 mod ping;
 mod get;
@@ -27,3 +30,5 @@ mod incrby;
 mod incrbyfloat;
 mod decrby;
 mod decrbyfloat;
+mod strlen;
+mod lcs;
