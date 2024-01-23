@@ -5,6 +5,7 @@ use std::fmt::{Display, Formatter};
 pub enum StorageData {
     Range(Vec<String>),
     Number(i128),
+    Decimal(f64),
     String(String),
     Map(HashMap<String, String>),
     Nil,
@@ -14,6 +15,7 @@ impl Display for StorageData {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let val = match self {
             StorageData::Number(v) => v.to_string(),
+            StorageData::Decimal(v) => v.to_string(),
             StorageData::String(v) => v.clone(),
             StorageData::Range(_) => String::from("[List]"),
             StorageData::Map(_) => String::from("[Map]"),
@@ -36,10 +38,17 @@ impl From<i128> for StorageData {
     }
 }
 
+impl From<f64> for StorageData {
+    fn from(value: f64) -> Self {
+        StorageData::Decimal(value)
+    }
+}
+
 impl StorageData {
     pub fn is_primitive(&self) -> bool {
         match self {
-            StorageData::Number(_) | StorageData::String(_) | StorageData::Nil => true,
+            StorageData::Decimal(_) | StorageData::Number(_)
+            | StorageData::String(_) | StorageData::Nil => true,
             _ => false,
         }
     }

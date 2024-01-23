@@ -1,12 +1,19 @@
-pub use self::append::Append;
-pub use self::get::Get;
-pub use self::getdel::GetDel;
-pub use self::getex::GetEx;
-pub use self::getrange::GetRange;
-pub use self::setrange::SetRange;
-pub use self::ping::Ping;
-pub use self::set::Set;
-pub use self::unknown::Unknown;
+pub use append::Append;
+pub use get::Get;
+pub use getdel::GetDel;
+pub use getex::GetEx;
+pub use getrange::GetRange;
+pub use setrange::SetRange;
+pub use ping::Ping;
+pub use set::Set;
+pub use unknown::Unknown;
+pub use incr::Incr;
+pub use incrby::IncrBy;
+pub use incrbyfloat::IncrByFloat;
+pub use decr::Decr;
+pub use decrby::DecrBy;
+pub use decrbyfloat::DecrByFloat;
+
 
 mod get;
 mod set;
@@ -17,3 +24,9 @@ mod getex;
 mod getdel;
 mod getrange;
 mod setrange;
+mod incr;
+mod decr;
+mod incrby;
+mod incrbyfloat;
+mod decrby;
+mod decrbyfloat;

@@ -7,6 +7,7 @@ use crate::storage::cores::StorageData;
 pub enum CommandResult {
     Range(Vec<String>),
     Number(i128),
+    Decimal(f64),
     String(String),
     Map(HashMap<String, String>),
     Bool(bool),
@@ -16,13 +17,14 @@ pub enum CommandResult {
 impl Display for CommandResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let msg = match self {
+            CommandResult::Decimal(v) => v.to_string(),
             CommandResult::Number(v) => v.to_string(),
             CommandResult::String(v) => v.clone(),
             CommandResult::Bool(v) => {
                 if *v == true {
                     String::from("OK")
                 } else {
-                    String::from("NOT OK - CHECK ERROR MESSAGE")
+                    String::from("NOT OK")
                 }
             }
             CommandResult::Nil => String::from("(nil)"),
@@ -38,6 +40,7 @@ impl From<StorageData> for CommandResult {
         match value {
             StorageData::Range(val) => CommandResult::Range(val),
             StorageData::Number(val) => CommandResult::Number(val),
+            StorageData::Decimal(val) => CommandResult::Decimal(val),
             StorageData::String(val) => CommandResult::String(val),
             StorageData::Map(val) => CommandResult::Map(val),
             StorageData::Nil => CommandResult::Nil,
@@ -50,6 +53,7 @@ impl From<&StorageData> for CommandResult {
         match value.clone() {
             StorageData::Range(val) => CommandResult::Range(val),
             StorageData::Number(val) => CommandResult::Number(val),
+            StorageData::Decimal(val) => CommandResult::Decimal(val),
             StorageData::String(val) => CommandResult::String(val),
             StorageData::Map(val) => CommandResult::Map(val),
             StorageData::Nil => CommandResult::Nil,
