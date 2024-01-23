@@ -19,6 +19,10 @@ impl ExecuteEngine for SingleThreadExecuteEngine {
             "GETDEL" => GetDel::execute,
             "GETRANGE" => GetRange::execute,
             "SETRANGE" => SetRange::execute,
+            "INCRBY" => IncrBy::execute,
+            "INCRBYFLOAT" => IncrByFloat::execute,
+            "DECRBY" => DecrBy::execute,
+            "DECRBYFLOAT" => DecrByFloat::execute,
             _ => Unknown::execute,
         };
 

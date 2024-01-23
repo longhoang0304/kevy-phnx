@@ -22,6 +22,12 @@ impl CommandParserFactory<String> for StringToCommandParserFactory {
             "SET" => Set::parse,
             "SETRANGE" => SetRange::parse,
             "PING" => Ping::parse,
+            "INCR" => Incr::parse,
+            "INCRBY" => IncrBy::parse,
+            "INCRBYFLOAT" => IncrByFloat::parse,
+            "DECR" => Decr::parse,
+            "DECRBY" => DecrBy::parse,
+            "DECRBYFLOAT" => DecrByFloat::parse,
             _ => Unknown::parse,
         };
 

@@ -1,5 +1,6 @@
 use super::{StorageData, StorageKey, StorageValue};
 
+#[derive(Debug, Clone)]
 pub struct StorageEntry {
     pub key: StorageKey,
     pub value: StorageValue,

@@ -8,6 +8,7 @@ pub enum CommandExecutorError {
     InvalidCommandSyntax,
     UnknownCommand,
     NotSupportedDataType,
+    KeyNotFound(String),
 }
 
 impl Display for CommandExecutorError {
@@ -18,6 +19,7 @@ impl Display for CommandExecutorError {
             CommandExecutorError::InvalidCommandSyntax => String::from("InvalidCommandSyntax: Invalid syntax."),
             CommandExecutorError::UnknownCommand => String::from("UnknownCommand: Unknown command."),
             CommandExecutorError::NotSupportedDataType => String::from("NotSupportedData: Value's data type is not supported for this command."),
+            CommandExecutorError::KeyNotFound(key) => format!("KeyNotFound: `{key}` is not available."),
         };
 
         write!(f, "{msg}")
