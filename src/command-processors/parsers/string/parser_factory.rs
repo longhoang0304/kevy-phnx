@@ -30,6 +30,9 @@ impl CommandParserFactory<String> for StringToCommandParserFactory {
             "DECRBYFLOAT" => DecrByFloat::parse,
             "STRLEN" => Strlen::parse,
             "LCS" => Lcs::parse,
+            "MGET" => MGet::parse,
+            "MSET" => MSet::parse,
+            "MSETNX" => MSetNx::parse,
             _ => Unknown::parse,
         };
 

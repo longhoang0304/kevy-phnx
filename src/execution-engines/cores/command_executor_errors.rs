@@ -9,6 +9,7 @@ pub enum CommandExecutorError {
     UnknownCommand,
     NotSupportedDataType,
     KeyNotFound(String),
+    KeyExisted(String),
 }
 
 impl Display for CommandExecutorError {
@@ -20,6 +21,7 @@ impl Display for CommandExecutorError {
             CommandExecutorError::UnknownCommand => String::from("UnknownCommand: Unknown command."),
             CommandExecutorError::NotSupportedDataType => String::from("NotSupportedData: Value's data type is not supported for this command."),
             CommandExecutorError::KeyNotFound(key) => format!("KeyNotFound: `{key}` is not available."),
+            CommandExecutorError::KeyExisted(key) => format!("KeyExisted: `{key}` is already available."),
         };
 
         write!(f, "{msg}")

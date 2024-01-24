@@ -28,6 +28,13 @@ impl Display for CommandResult {
                 }
             }
             CommandResult::Nil => String::from("(nil)"),
+            CommandResult::Range(vec) => {
+                let mut result = String::new();
+                for (_idx, val) in vec.iter().enumerate() {
+                    result += format!("{val}, ").as_str()
+                }
+                result
+            }
             _ => String::from(""),
         };
 
@@ -82,6 +89,12 @@ impl From<bool> for CommandResult {
 impl From<&str> for CommandResult {
     fn from(value: &str) -> Self {
         CommandResult::String(String::from(value))
+    }
+}
+
+impl From<Vec<String>> for CommandResult {
+    fn from(value: Vec<String>) -> Self {
+        CommandResult::Range(value)
     }
 }
 
