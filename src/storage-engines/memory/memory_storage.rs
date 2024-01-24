@@ -1,7 +1,6 @@
 use std::collections::HashMap;
-use std::ops::Index;
 
-use crate::storage::cores::{Storage, StorageEntries, StorageEntry, StorageError, StorageKey};
+use crate::storage::cores::{Storage, StorageData, StorageEntries, StorageEntry, StorageError, StorageKey, StorageValue};
 
 #[derive(Debug)]
 pub struct MemoryStorage {
@@ -9,9 +8,15 @@ pub struct MemoryStorage {
 }
 
 impl Storage for MemoryStorage {
-    fn read(&self, key: &StorageKey) -> Result<Option<StorageEntry>, Box<StorageError>> {
-        let value = self.entries.index(key);
-        let result = Some(StorageEntry::new(key.to_owned(), value.to_owned()));
+    fn read(&self, key: &StorageKey) -> Result<StorageEntry, Box<StorageError>> {
+        let value = self.entries.get(key);
+        let result: StorageEntry;
+
+        if value.is_none() {
+            result = StorageEntry::new(key.to_owned(), StorageValue::new(StorageData::Nil, None))
+        } else {
+            result = StorageEntry::new(key.to_owned(), value.unwrap().to_owned())
+        }
 
         Ok(result)
     }
@@ -20,6 +25,12 @@ impl Storage for MemoryStorage {
         self.entries.insert(entry.key, entry.value);
 
         Ok(())
+    }
+
+    fn delete(&mut self, key: &StorageKey) -> Result<bool, Box<StorageError>> {
+        let prev_value = self.entries.remove(key);
+
+        Ok(prev_value.is_none())
     }
 }
 

@@ -1,4 +1,5 @@
 use std::collections::VecDeque;
+
 use crate::command_processors::parsers::cores::{CommandTokenizer, CommandTokenizerError};
 
 pub struct StringToCommandTokenizer;
@@ -10,7 +11,8 @@ impl CommandTokenizer<String> for StringToCommandTokenizer {
         let mut stk = Vec::new();
 
         for chr in value.chars() {
-            if stk.is_empty() && chr == ' ' {
+            if stk.is_empty() && chr == ' ' && token.is_empty() { continue; }
+            if stk.is_empty() && chr == ' '  {
                 tokens.push_back(token.clone());
                 token.clear();
                 continue;
@@ -24,6 +26,7 @@ impl CommandTokenizer<String> for StringToCommandTokenizer {
             if chr == '"' && *stk.last().unwrap() == chr {
                 tokens.push_back(token.clone());
                 token.clear();
+                stk.clear();
                 continue;
             }
 

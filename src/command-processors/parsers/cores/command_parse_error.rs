@@ -2,22 +2,28 @@ use std::error::Error;
 use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
-pub enum CommandParseError {
-    EmptyQuery,
-    MissingParametersForCommand(&'static str),
-    InvalidParametersForCommand(&'static str),
+pub enum CommandParserError {
+    WrongNumberOfArguments(u16, u16),
+    InvalidArgument(String),
+    InvalidArgumentValue(String),
+    InvalidSyntax,
 }
 
-impl Display for CommandParseError {
+impl Display for CommandParserError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let msg = match self {
-            CommandParseError::EmptyQuery => String::from("Empty query"),
-            CommandParseError::MissingParametersForCommand(cmd) => format!("Missing parameters for command: {cmd}"),
-            CommandParseError::InvalidParametersForCommand(cmd) => format!("Invalid parameter for command: {cmd}"),
+            CommandParserError::WrongNumberOfArguments(expected, given) =>
+                format!("WrongNumberOfArguments: Wrong number of arguments. Expected: {expected} but {given} was given."),
+            CommandParserError::InvalidArgument(arg_name) =>
+                format!("InvalidArgument: Invalid argument: `{arg_name}`."),
+            CommandParserError::InvalidArgumentValue(name) =>
+                format!("InvalidArgumentValue: Value for argument `{name}` is not valid.."),
+            CommandParserError::InvalidSyntax =>
+                String::from("InvalidSyntax: Invalid Syntax"),
         };
 
         write!(f, "{msg}")
     }
 }
 
-impl Error for CommandParseError {}
+impl Error for CommandParserError {}
