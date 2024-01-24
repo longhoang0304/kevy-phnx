@@ -9,6 +9,7 @@ pub enum CommandArgumentValue {
     String(String),
     Bool(bool),
     Index(usize),
+    Range(Vec<String>),
 }
 
 impl TryInto<String> for CommandArgumentValue {
@@ -66,6 +67,17 @@ impl TryInto<usize> for CommandArgumentValue {
     }
 }
 
+impl TryInto<Vec<String>> for CommandArgumentValue {
+    type Error = CommandArgumentValueError;
+
+    fn try_into(self) -> Result<Vec<String>, Self::Error> {
+        match self {
+            CommandArgumentValue::Range(v) => Ok(v),
+            _ => Err(CommandArgumentValueError::TryIntoError),
+        }
+    }
+}
+
 // =========
 
 impl From<String> for CommandArgumentValue {
@@ -107,6 +119,12 @@ impl From<usize> for CommandArgumentValue {
 impl From<Box<CommandArgumentValue>> for CommandArgumentValue {
     fn from(value: Box<CommandArgumentValue>) -> Self {
         *value
+    }
+}
+
+impl From<Vec<String>> for CommandArgumentValue {
+    fn from(value: Vec<String>) -> Self {
+        CommandArgumentValue::Range(value)
     }
 }
 

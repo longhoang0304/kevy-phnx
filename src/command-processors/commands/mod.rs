@@ -15,6 +15,9 @@ pub use decrby::DecrBy;
 pub use decrbyfloat::DecrByFloat;
 pub use strlen::Strlen;
 pub use lcs::Lcs;
+pub use mget::MGet;
+pub use mset::MSet;
+pub use msetnx::MSetNx;
 
 
 
@@ -35,3 +38,6 @@ mod decrby;
 mod decrbyfloat;
 mod strlen;
 mod lcs;
+mod mget;
+mod mset;
+mod msetnx;
